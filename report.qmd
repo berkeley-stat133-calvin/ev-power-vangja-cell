@@ -13,7 +13,34 @@ format: typst
 
 ## **Part 1:** **Defining Research Question**
 
-Chosen Question:
+Chosen Question: Which states has the largest increase of shared renewable energy from 2021-2023? Do states with higher EV registrations sourcing a greater proportion of electricity from renewable energy? Is there a correlation between a state's average energy price and its renewable energy usage? If so, describe this trend. Is there an emergence of states where both renewable energy share and EV registrations are rapidly increasing?
+
+Question used for mapping:
+"Is there a correlation between a state's average energy price and its renewable energy usage? If so, describe this trend."
+*NOTE* will be only using 2023 data for mapping
+```{r}
+ru_2021 <- read_csv("data/renew-use-2021.csv")
+ru_2022 <- read_csv("data/renew-use-2022.csv")
+ru_2023 <- read_csv("data/renew-use-2023.csv")
+tu_2021 <- read_csv("data/total-use-2021.csv")
+tu_2022 <- read_csv("data/total-use-2022.csv")
+tu_2023 <- read_csv("data/total-use-2023.csv")
+EVR <- read_csv("data/ev-registrations-by-state-2023.csv")
+AVEP <- read_csv("data/av-energy-price-2021-2023.csv")
+```
+
+```{r}
+ AVEP_joined <- us_states |>
+    left_join(AVEP, by = c("name" = "Total energy average price, dollars per million Btu,,,"))
+
+ggplot(AVEP_joined) +
+    geom_sf(aes(fill = "Total energy average price, dollars per million Btu,,,"), color = "white") +
+    scale_fill_continuous(name = "Dollars per Million Btu", na.value = "grey90") +
+    labs(title = "US States by Average Energy Price") +
+    coord_sf(xlim = c(-125, -66), ylim = c(24, 50), expand = FALSE)+
+    theme_minimal()
+# Code does not work, too many errors 
+```
 
 ## **Part 2: Data Preparation and Cleaning**
 
